@@ -9,7 +9,7 @@
   <arg name="ElbowPitchPWM_CH"    value="/HW/SlowPWM/CH2" />
   <arg name="WristRotPWM_CH"      value="/HW/SlowPWM/CH3" />
   <arg name="WristPitchPWM_CH"    value="/HW/SlowPWM/CH4" />
-  <arg name="ClawActuationPWM_CH" value="/HW/SlowPWM/CH5" />
+  <arg name="ClawPWM_CH"          value="/HW/SlowPWM/CH5" />
 
   <arg name="FrontLeftPWM_CH"     value="/HW/SlowPWM/CH6" />
   <arg name="MiddleLeftPWM_CH"    value="/HW/SlowPWM/CH7" />
@@ -74,11 +74,11 @@
   </node>
 
   <group ns="Arm" unless="$(arg noarm)">
-    <arg name="ShoulderRot_Scale" value="-0.4" />
-    <arg name="ShoulderPitch_Scale" value="0.9" />
+    <arg name="ShoulderRot_Scale" value="1.0" />
+    <arg name="ShoulderPitch_Scale" value="1.0" />
     <arg name="ElbowPitch_Scale" value="1.0" />
-    <arg name="WristRot_Scale" value="0.3" />
-    <arg name="WristPitch_Scale" value="0.3" />
+    <arg name="WristRot_Scale" value="1.0" />
+    <arg name="WristPitch_Scale" value="1.0" />
     <arg name="ClawActuation_Scale" value="1.0" />
 
     <node name="Arm_Interface" pkg="mavric" type="Arm_P.py" respawn="true">
@@ -107,9 +107,9 @@
       <param name="slopes"      value="$(eval ShoulderRot_Scale*0.0005/100)" />
       <param name="intercepts"  value="0.0015" />
     </node>
-    <node name="ShoulderPitch_Scale" pkg="mavric" type="LinearMapping.py">
-      <param name="inputs"  value="ShoulderPitchRamped" />
-      <param name="outputs" value="$(arg ShoulderPitchPWM_CH)" />
+    <node name="Claw_Scale" pkg="mavric" type="LinearMapping.py">
+      <param name="inputs"  value="Claw" />
+      <param name="outputs" value="$(arg ClawPWM_CH)" />
       <param name="slopes"      value="$(eval ShoulderPitch_Scale*0.0005/100)" />
       <param name="intercepts"  value="0.0015" />
     </node>
